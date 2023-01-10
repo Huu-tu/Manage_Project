@@ -7,6 +7,7 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\GoogleDriveController;
 
 //Main Page
 Route::get('/',[PagesController::class, 'index']);
@@ -18,7 +19,6 @@ Route::post('/postLogin',[AuthController::class, 'postLogin']);
 Route::get('/registration', [AuthController::class, 'register']);
 Route::post('/postRegistration', [AuthController::class, 'postRegister']);
 Route::get('/logout', [AuthController::class, 'logOut']);
-
 
 Route::get('product',[
     ProductController::class,
@@ -60,6 +60,10 @@ Route::get('profile',[
     ProfileController::class,
     'index'
 ]);
+
+Route::get('google/login',[GoogleDriveController::class,'googleLogin'])->name('google.login');
+Route::get('google-drive/file-upload',[GoogleDriveController::class,'googleDriveFilePpload'])->name('google.drive.file.upload');
+
 
 Route::group(['middleware' =>['cusTomAuth']], function (){
     Route::get('order', [OrderController::class, 'index']);

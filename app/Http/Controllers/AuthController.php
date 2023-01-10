@@ -29,7 +29,7 @@ class AuthController extends Controller
         return $this->authService->register($request);
     }
 
-    public function logOut(){
-
+    public function logOut(Request $request){
+        return $this->authService->logOut($request);
     }
 }

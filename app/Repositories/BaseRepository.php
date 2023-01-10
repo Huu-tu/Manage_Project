@@ -28,9 +28,8 @@ abstract  class BaseRepository
         return $this->_model->create($data);
     }
 
-    public function logOut(){
-
-    }
+//    public function logOut(){
+//    }
 
     public function getAll(){
         return $this->_model::all();
@@ -70,7 +69,6 @@ abstract  class BaseRepository
         $result = $this->_model->findOrFail($id);
         if ($result) {
             $result->delete();
-
             return true;
         }
 

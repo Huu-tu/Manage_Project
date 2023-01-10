@@ -2,79 +2,178 @@
 
 @section('content')
     <br>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-5">
-                <div class="card">
-                    <h2 class="card-title text-center">Register Form</h2>
-                    <div class="card-body py-md-4">
-                        <form method="POST" action="/postRegistration">
-                            @csrf
-                            <div class="form-group">
-                                <input type="text" name="name" class="form-control" id="name" placeholder="Name">
-                            </div>
+    <section class="login-block">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <form class="md-float-material form-material" method="POST" action="/postRegistration">
+                        @csrf
+                        <div class="auth-box card">
+                            <div class="card-block">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3 class="text-center heading" >
+                                            Register Form
+                                        </h3>
+                                    </div>
+                                </div>
+                                <div class="form-group form-primary">
+                                    <input type="text" name="name" class="form-control" id="name" placeholder="Name">
+                                </div>
 
-                            <div class="form-group">
-                                <input type="email" name="email" class="form-control" id="email" placeholder="Email">
-                            </div>
+                                <div class="form-group form-primary">
+                                    <input type="email" name="email" class="form-control" id="email" placeholder="Email">
+                                </div>
 
-                            <div class="form-group">
-                                <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                                <div class="form-group form-primary">
+                                    <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20">
+                                            Login
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="or-container"><div class="line-separator"></div> <div class="or-label">or</div><div class="line-separator"></div></div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <a class="btn btn-lg btn-google btn-block text-uppercase btn-outline" href="/google/login"><img src="https://img.icons8.com/color/16/000000/google-logo.png"> Login Using Google</a>
+                                    </div>
+                                </div>
+                                <br>
+
+                                <p class="text-inverse text-center">Already have an account? <a href="/login" data-abc="true">Login</a></p>
                             </div>
-                            <div class="d-flex flex-row align-items-center justify-content-between">
-                                <a href="/login">Login</a>
-                                <button type="submit" class="btn btn-primary">Create Account</button>
-                            </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
+
     <style>
-        h2{
-            padding-top: 1.5rem;
-        }
-        a{
-            color: #333;
-        }
-        a:hover{
-            color: #da5767;
-            text-decoration: none;
-        }
-        .card{
-            border: 0.40rem solid #f8f9fa;
-            top: 10%;
-        }
-        .form-control{
-            background-color: #f8f9fa;
-            padding: 20px;
-            padding: 25px 15px;
-            margin-bottom: 1.3rem;
+        body {
+            background-color: #f2f7fb
         }
 
-        .form-control:focus {
+        .login-block {
+            margin: 30px auto;
+            min-height: 93.6vh
+        }
 
-            color: #000000;
-            background-color: #ffffff;
-            border: 3px solid #da5767;
-            outline: 0;
+        .login-block .auth-box {
+            margin: 20px auto 0;
+            max-width: 450px !important
+        }
+
+        .card {
+            border-radius: 5px;
+            -webkit-box-shadow: 0 0 5px 0 rgba(43, 43, 43, .1), 0 11px 6px -7px rgba(43, 43, 43, .1);
+            box-shadow: 0 0 5px 0 rgba(43, 43, 43, .1), 0 11px 6px -7px rgba(43, 43, 43, .1);
+            border: none;
+            margin-bottom: 30px;
+            -webkit-transition: all .3s ease-in-out;
+            transition: all .3s ease-in-out;
+            background-color: #fff;
+        }
+
+        .card .card-block {
+            padding: 1.25rem
+        }
+
+        .form-group {
+            margin-bottom: 1.25em
+        }
+
+        .form-material .form-control {
+            display: inline-block;
+            height: 43px;
+            width: 100%;
+            border: none;
+            border-radius: 0;
+            font-size: 16px;
+            font-weight: 400;
+            padding: 9px;
+            background-color: transparent;
+            -webkit-box-shadow: none;
             box-shadow: none;
+            border-bottom: 1px solid #ccc
+        }
+
+        .btn-md {
+            padding: 10px 16px;
+            font-size: 15px;
+            line-height: 23px
+        }
+
+        .btn-primary {
+            background-color: #4099ff;
+            border-color: #4099ff;
+            color: #fff;
+            cursor: pointer;
+            -webkit-transition: all ease-in .3s;
+            transition: all ease-in .3s
+        }
+
+        .btn {
+            border-radius: 2px;
+            text-transform: capitalize;
+            font-size: 15px;
+            padding: 10px 19px;
+            cursor: pointer
+        }
+
+        .m-b-20 {
+            margin-bottom: 20px
+        }
+
+        .btn-md {
+            padding: 10px 16px;
+            font-size: 15px;
+            line-height: 23px
+        }
+
+        .heading{
+
+            font-size: 21px;
 
         }
 
-        .btn{
-            padding: 0.6rem 1.2rem;
-            background: #da5767;
-            border: 2px solid #da5767;
+        #infoMessage p{
+
+            color: red !important;
         }
-        .btn-primary:hover {
 
 
-            background-color: #df8c96;
-            border-color: #df8c96;
-            transition: .3s;
+        .btn-google {
+            color: #545454;
+            background-color: #ffffff;
+            box-shadow: 0 1px 2px 1px #ddd;
+        }
 
+
+        .or-container {
+            align-items: center;
+            color: #ccc;
+            display: flex;
+            margin: 25px 0;
+        }
+
+        .line-separator {
+            background-color: #ccc;
+            flex-grow: 5;
+            height: 1px;
+        }
+
+        .or-label {
+            flex-grow: 1;
+            margin: 0 15px;
+            text-align: center;
         }
     </style>
+
 @endsection

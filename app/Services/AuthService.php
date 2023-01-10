@@ -40,4 +40,11 @@ class AuthService{
 
         return $this->authRepository->register($data);
     }
+
+    public function logOut(Request $request){
+        $request->session()->forget('key');
+        return redirect('/login');
+//        $userId = $request->route('id');
+//        return $this->authRepository->logOut();
+    }
 }

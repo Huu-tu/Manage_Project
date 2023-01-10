@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class AuthRespository extends BaseRepository{
     public function getModel(){
@@ -29,5 +30,19 @@ class AuthRespository extends BaseRepository{
         ]);
 
         return redirect('/login');
+    }
+
+    public function logOut(){
+        return redirect('login');
+//        $result = $this->_model->findOrFail($userId);
+//        if ($result){
+//            Session::flush();
+//
+//            Auth::logout();
+//
+////            return redirect('login');
+//        }else{
+//            echo "Koh";
+//        }
     }
 }
