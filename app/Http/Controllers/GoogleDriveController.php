@@ -21,10 +21,14 @@ class GoogleDriveController extends Controller
 
         $this->gClient->setScopes(array(
             'https://www.googleapis.com/auth/drive.file',
+//            'https://www.googleapis.com/auth/plus.login',
+            'https://www.googleapis.com/auth/userinfo.email',
             'https://www.googleapis.com/auth/drive'
         ));
 
-        $this->gClient->setAccessType("offline");
+        $this->gClient->addScope('email');
+
+        $this->gClient->setAccessType("online");
 
         $this->gClient->setApprovalPrompt("force");
     }
@@ -37,28 +41,31 @@ class GoogleDriveController extends Controller
 
             $this->gClient->authenticate($request->get('code'));
 
-            $request->session()->put('token', $this->gClient->getAccessToken());
+            $request->session()->put('key', $this->gClient->getAccessToken());
         }
 
-        if ($request->session()->get('token')){
+        if ($request->session()->get('key')){
 
-            $this->gClient->setAccessToken($request->session()->get('token'));
+            $this->gClient->setAccessToken($request->session()->get('key'));
         }
 
         if ($this->gClient->getAccessToken()){
+            $google_account_info = $google_oauthV2->userinfo->get();
+
+            $email =  $google_account_info->email;
 
             //FOR LOGGED IN USER, GET DETAILS FROM GOOGLE USING ACCES
-            $user = User::find(2);
+//            $user = User::find(2);
+            $user = User::where ('email', '=', "{$email}")->first();
 
-            $user->access_token = json_encode($request->session()->get('token'));
+
+            $user->access_token = json_encode($request->session()->get('key'));
 
             $user->save();
 
-//            dd($request->get('code'));
+            dd($user);
 
-            $request->session()->put('key',$user['email']);
-
-            return redirect('/order');
+//            return redirect('/order');
 
         } else{
 
