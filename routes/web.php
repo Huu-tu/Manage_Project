@@ -8,6 +8,8 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GoogleDriveController;
+use App\Http\Controllers\S3Controller;
+use App\Http\Controllers\FileUploadController;
 
 //Main Page
 Route::get('/',[PagesController::class, 'index']);
@@ -61,9 +63,43 @@ Route::get('profile',[
     'index'
 ]);
 
-Route::get('google/login',[GoogleDriveController::class,'googleLogin'])->name('google.login');
-Route::get('google-drive/file-upload',[GoogleDriveController::class,'googleDriveFilePpload'])->name('google.drive.file.upload');
+Route::get('/getFileUploadToDrive',[GoogleDriveController::class,'getFileUploadToDrive']);
 
+//Route::get('/google/login',[GoogleDriveController::class,'googleLogin'])->name('google.login');
+//Route::get('/uploadFIle',[GoogleDriveController::class,'uploadFile']);
+//Route::post('/google-drive/file-upload',[GoogleDriveController::class,'googleDriveFilePpload'])->name('google.drive.file.upload');
+//Route::post('/fileUploadToDrive',[GoogleDriveController::class,'fileUploadToDrive']);
+
+//Route::group(['middleware' => ['web', 'auth']], function(){
+//    Route::get('dropbox', function(){
+//
+//        if (! Dropbox::isConnected()) {
+//            return redirect(env('DROPBOX_OAUTH_URL'));
+//        } else {
+//            //display your details
+//            return Dropbox::post('users/get_current_account');
+//        }
+//
+//    });
+//
+//    Route::get('dropbox/connect', function(){
+//        return Dropbox::connect();
+//    });
+//
+//    Route::get('dropbox/disconnect', function(){
+//        return Dropbox::disconnect('app/dropbox');
+//    });
+//});
+
+
+//Cloud
+Route::get('/google/login',[GoogleDriveController::class,'googleLogin'])->name('google.login');
+
+Route::get('/getFileUpload/{option}/{key}',[FileUploadController::class,'getFileUpload']);
+Route::get('/getAllFileUploadCloud/{option}',[FileUploadController::class,'getAllFileUploadCloud']);
+Route::post('/fileUploadToCloud/{option}',[FileUploadController::class,'fileUploadToCloud']);
+Route::delete('/fileDeleteCloud/{option}/{id}',[FileUploadController::class,'fileDeleteCloud']);
+Route::get('/fileDownLoadCloud',[FileUploadController::class,'fileDownLoadCloud']);
 
 Route::group(['middleware' =>['cusTomAuth']], function (){
     Route::get('order', [OrderController::class, 'index']);

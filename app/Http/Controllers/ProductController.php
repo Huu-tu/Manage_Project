@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
     public function index() {
         $products = Product::all();
 
-        return view('products.index', ['products' => $products]);
+        return view('products.index', ['products' => "{$products}"]);
     }
     public function about(){
         return 'This is a Page';
@@ -35,7 +36,6 @@ class ProductController extends Controller
     }
 
     public function updateProduct(Product $product){
-
         return view('products.updateProduct', ['product' =>$product]);
     }
 

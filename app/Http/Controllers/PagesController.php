@@ -8,9 +8,8 @@ use App\Models\Product;
 class PagesController extends Controller
 {
     public function index(){
-        $products = Product::all();
 
-        return view('index', ['products' => $products]);
+        return view('index');
     }
     public function news(){
         return view('news.news');

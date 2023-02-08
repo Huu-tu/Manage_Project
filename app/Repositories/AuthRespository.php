@@ -29,20 +29,14 @@ class AuthRespository extends BaseRepository{
             'password' => Hash::make($data['password'])
         ]);
 
-        return redirect('/login');
+//        return redirect('/login');
+        return response()->json([
+            'email' => $data['email'],
+            'password' => $data['password']
+        ]);
     }
 
     public function logOut(){
         return redirect('login');
-//        $result = $this->_model->findOrFail($userId);
-//        if ($result){
-//            Session::flush();
-//
-//            Auth::logout();
-//
-////            return redirect('login');
-//        }else{
-//            echo "Koh";
-//        }
     }
 }

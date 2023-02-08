@@ -5,11 +5,12 @@ namespace App\Services;
 use Illuminate\Http\Request;
 use App\Repositories\AuthRespository;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 class AuthService{
     public function __construct(AuthRespository $authRepository){
         $this->authRepository = $authRepository;
+
     }
 
     public function login(Request $request){
@@ -23,11 +24,15 @@ class AuthService{
 //        return $this->authRepository->login($data);
         if (Auth::attempt($data)) {
             $request->session()->put('key',$data['email']);
+//            return response()->json([
+//                'email' => $data['email']
+//            ]);
             return redirect('/');
         }else{
             return redirect('/login');
         }
     }
+
 
     public function register(Request $request){
         request()->validate([

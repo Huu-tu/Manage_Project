@@ -101,6 +101,8 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    'api_key' => env('API_KEY'),
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
@@ -147,6 +149,9 @@ return [
         /*
          * Application Service Providers...
          */
+        App\Providers\DropboxServiceProvider::class,
+        App\Providers\FileUploadServiceProvider::class,
+        App\Providers\GoogleDriveServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
@@ -208,5 +213,4 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
-
 ];

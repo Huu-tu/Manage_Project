@@ -18,6 +18,10 @@
                             Order</a>
                     </li>
                     <li class="nav-item pl-1">
+                        <a class="nav-link" href="/uploadFIle">
+                            Upload FIle</a>
+                    </li>
+                    <li class="nav-item pl-1">
                         <a class="nav-link" href="/profile">
                             Profile</a>
                     </li>

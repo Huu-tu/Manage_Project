@@ -2,15 +2,10 @@
 
 return [
     'default' => env('FILESYSTEM_DRIVER', 'local'),
+    'cloud' => env('FILESYSTEM_CLOUD', 's3'),
+//    'cloud' => 'google',
 
     'disks' => [
-//        'google' => [
-//            'driver' => 'google',
-//            'clientId' => env('228114178670-o8hc85va5lsrrkjmihmgpq5bdhc7r05a.apps.googleusercontent.com'),
-//            'clientSecret' => env('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'),
-//            'refreshToken' => env('GOOGLE_DRIVE_REFRESH_TOKEN'),
-//            'folderId' => env('1-corZpGGmBfHPS5qY5cH8UB-b0Qi2_fa'),
-//        ],
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),
@@ -25,13 +20,24 @@ return [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
             'secret' => env('AWS_SECRET_ACCESS_KEY'),
-            'region' => env('AWS_DEFAULT_REGION'),
+            'region' => 'ap-southeast-1',
             'bucket' => env('AWS_BUCKET'),
-            'url' => env('AWS_URL'),
-            'endpoint' => env('AWS_ENDPOINT'),
-            'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
+//            'url' => env('AWS_URL'),
         ],
-
+        'google' => [
+            'driver' => 'google',
+            'clientId' => env('GOOGLE_DRIVE_CLIENT_ID'),
+            'clientSecret' => env('GOOGLE_DRIVE_CLIENT_SECRET'),
+            'accessToken'=>env('GOOGLE_DRIVE_ACCESS_TOKEN'),
+            'refreshToken' => env('GOOGLE_DRIVE_REFRESH_TOKEN'),
+            'folderId' => env('GOOGLE_DRIVE_FOLDER_ID'),
+        ],
+        'dropbox'=>[
+            'driver'=>'dropbox',
+            'key'=>env('DROPBOX_TOKEN'),
+            'secret'=>env('DROPBOX_SECRET'),
+            'authorization_token' => env('DROPBOX_ACCESS_TOKEN'),
+        ],
     ],
 
     /*

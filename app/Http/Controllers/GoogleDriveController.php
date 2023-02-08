@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 
 class GoogleDriveController extends Controller
@@ -23,14 +24,16 @@ class GoogleDriveController extends Controller
             'https://www.googleapis.com/auth/drive.file',
 //            'https://www.googleapis.com/auth/plus.login',
             'https://www.googleapis.com/auth/userinfo.email',
+            'https://www.googleapis.com/auth/drive.metadata',
             'https://www.googleapis.com/auth/drive'
         ));
 
         $this->gClient->addScope('email');
 
-        $this->gClient->setAccessType("online");
+        $this->gClient->setAccessType("offline");
 
         $this->gClient->setApprovalPrompt("force");
+
     }
 
     public function googleLogin(Request $request)  {
@@ -54,18 +57,15 @@ class GoogleDriveController extends Controller
 
             $email =  $google_account_info->email;
 
-            //FOR LOGGED IN USER, GET DETAILS FROM GOOGLE USING ACCES
-//            $user = User::find(2);
-            $user = User::where ('email', '=', "{$email}")->first();
+            $user = User::where('email', '=', "{$email}")->first();
 
-
-            $user->access_token = json_encode($request->session()->get('key'));
+            $user->access_token=json_encode($request->session()->get('key'));
 
             $user->save();
 
-            dd($user);
-
 //            return redirect('/order');
+            dd("Thanh cong");
+//            return response()->json("{$result}");
 
         } else{
 
@@ -76,59 +76,103 @@ class GoogleDriveController extends Controller
         }
     }
 
-    public function googleDriveFilePpload()
+    public function uploadFile(Request $request)
+    {
+//        $value = $request->session()->get('key');
+//        return response()->json("{$value}");
+//        return view('uploadFile.index');
+    }
+
+    public function googleDriveFilePpload(Request $request)
     {
         $service = new \Google_Service_Drive($this->gClient);
 
-        $user = User::find(2);
+//        $email = $request->session()->get('key');
+        $email = "ngocutcuocdoi89@gmail.com";
+
+//        $user = User::Find(2);
+        $user = User::where('email', '=', "{$email}")->first();
 
         $this->gClient->setAccessToken(json_decode($user->access_token, true));
 
-        if ($this->gClient->isAccessTokenExpired()) {
+        if ($request->hasFile('file')) {
+            if ($this->gClient->isAccessTokenExpired()) {
 
-            // SAVE REFRESH TOKEN TO SOME VARIABLE
-            $refreshTokenSaved = $this->gClient->getRefreshToken();
+                // SAVE REFRESH TOKEN TO SOME VARIABLE
+                $refreshTokenSaved = $this->gClient->getRefreshToken();
 
-            // UPDATE ACCESS TOKEN
-            $this->gClient->fetchAccessTokenWithRefreshToken($refreshTokenSaved);
+                // UPDATE ACCESS TOKEN
+                $this->gClient->fetchAccessTokenWithRefreshToken($refreshTokenSaved);
 
-            // PASS ACCESS TOKEN TO SOME VARIABLE
-            $updatedAccessToken = $this->gClient->getAccessToken();
+                // PASS ACCESS TOKEN TO SOME VARIABLE
+                $updatedAccessToken = $this->gClient->getAccessToken();
 
-            // APPEND REFRESH TOKEN
-            $updatedAccessToken['refresh_token'] = $refreshTokenSaved;
+                // APPEND REFRESH TOKEN
+                $updatedAccessToken['refresh_token'] = $refreshTokenSaved;
 
-            // SET THE NEW ACCES TOKEN
-            $this->gClient->setAccessToken($updatedAccessToken);
+                // SET THE NEW ACCES TOKEN
+                $this->gClient->setAccessToken($updatedAccessToken);
 
-            $user->access_token = $updatedAccessToken;
+                $user->access_token = $updatedAccessToken;
 
-            $user->save();
+                $user->save();
+            }
+
+            $file = $request->file;
+            $fileName = $file->getClientOriginalName();
+            $path = $file->getRealPath();
+
+            $fileMetadata = new \Google_Service_Drive_DriveFile(array(
+                'name' => "{$user->name}",  // ADD YOUR GOOGLE DRIVE FOLDER NAME
+                'mimeType' => 'application/vnd.google-apps.folder',
+//                'parents' => array('1-corZpGGmBfHPS5qY5cH8UB-b0Qi2_fa') // this is the folder id
+            ));
+
+            $folder = $service->files->create($fileMetadata, array('fields' => 'id'));
+
+            $file = new \Google_Service_Drive_DriveFile(array('name' => "{$fileName}", 'parents' => array($folder->id)));
+
+            $result = $service->files->create($file, array(
+                'data' => file_get_contents($path),
+                'mimeType' => 'application/octet-stream',
+                'uploadType' => 'media'
+            ));
+
+            return response()->json("{$user}");
+
+//          dd($result);
+
+//            return redirect('/uploadFIle');
         }
+    }
 
-        $fileMetadata = new \Google_Service_Drive_DriveFile(array(
-            'name' => "{$user->name}",  // ADD YOUR GOOGLE DRIVE FOLDER NAME
-            'mimeType' => 'application/vnd.google-apps.folder',
-            'parents' => array('1-corZpGGmBfHPS5qY5cH8UB-b0Qi2_fa') // this is the folder id
-        ));
+    public function getFileUploadToDrive(){
+        $result = Storage::disk('google')->exists('');
+        return response()->json($result);
+    }
 
-        $folder = $service->files->create($fileMetadata, array('fields' => 'id'));
+        public function fileUploadToDrive(Request $request){
+        if ($request->hasFile('file')){
+            $file = $request->file;
+            $fileName = $file->getClientOriginalName();
+            $path = $file->getRealPath();
 
-        printf("Folder ID: %s\n", $folder->id);
+            $filenamewithextension = $request->file('file')->getClientOriginalName();
 
-        $file = new \Google_Service_Drive_DriveFile(array('name' => 'Henry Calvill in The house of dragon.jpg', 'parents' => array($folder->id)));
+            //get filename without extension
+            $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
 
-        $result = $service->files->create($file, array(
+            //get file extension
+            $extension = $request->file('file')->getClientOriginalExtension();
 
-            'data' => file_get_contents(public_path('Henry Calvill in The house of dragon.jpg')), // ADD YOUR FILE PATH WHICH YOU WANT TO UPLOAD ON GOOGLE DRIVE
-            'mimeType' => 'application/octet-stream',
-            'uploadType' => 'media'
-        ));
+            //filename to store
+            $filenametostore = $filename.'_'.time().'.'.$extension;
 
-        // GET URL OF UPLOADED FILE
-
-//        $url = 'https://drive.google.com/open?id=' . $result->id;
-
-        dd($result);
+            $result = $request->file("file");
+//            $result = Storage::disk('google')->put('Webappfix', "sdfdsf");
+            return response()->json("{$filenametostore}");
+        }else{
+            return response()->json("Khong");
+        }
     }
 }

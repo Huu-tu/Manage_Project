@@ -27,17 +27,17 @@ interface ToyDuck{
     public function squeak();
 }
 
-class PlasticToyDuck implements ToyDuck{
-    protected $toyDuck;
-
-    public function __construct(ToyDuck $toyDuck){
-        $this->toyDuck= $toyDuck;
-    }
-
-    public function squeak(){
-        echo "Squeak";
-    }
-}
+//class PlasticToyDuck implements ToyDuck{
+//    protected $toyDuck;
+//
+//    public function __construct(ToyDuck $toyDuck){
+//        $this->toyDuck= $toyDuck;
+//    }
+//
+//    public function squeak(){
+//        echo "Squeak";
+//    }
+//}
 
 class BirdAdapter implements ToyDuck{
     protected $sparrow;

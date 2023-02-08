@@ -1,18 +1,7 @@
 <?php
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Third Party Services
-    |--------------------------------------------------------------------------
-    |
-    | This file is for storing the credentials for third party services such
-    | as Mailgun, Postmark, AWS and more. This file provides the de facto
-    | location for this type of information, allowing packages to have
-    | a conventional file to locate the various service credentials.
-    |
-    */
+    'file'=> 's3',
 
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
@@ -31,8 +20,13 @@ return [
     ],
 
     'google' => [
-        'client_id' => '228114178670-o8hc85va5lsrrkjmihmgpq5bdhc7r05a.apps.googleusercontent.com',
-        'client_secret' => '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',
-        'redirect' => 'http://127.0.0.1:8082/login',
-    ],
+        'client_id' => env('GOOGLE_DRIVE_CLIENT_ID'),
+        'project_id' => env('GOOGLE_APP_ID'),
+        'auth_uri' => 'https://accounts.google.com/o/oauth2/auth',
+        'token_uri' => 'https://accounts.google.com/o/oauth2/token',
+        'auth_provider_x509_cert_url' => 'https://www.googleapis.com/oauth2/v1/certs',
+        'client_secret' => env('GOOGLE_DRIVE_CLIENT_SECRET'),
+        'redirect' => env('GOOGLE_REDIRECT'),
+        'redirect_uris' => [env('GOOGLE_REDIRECT')],
+    ]
 ];

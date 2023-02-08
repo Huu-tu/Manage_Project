@@ -9,6 +9,7 @@
                 <label>Name</label>
                 <input type="text" name="name" class="form-control" placeholder="Title -----">
             </div>
+
             <div class="form-group">
                 <label for="exampleFormControlTextarea1">Description</label>
                 <textarea name="description" class="form-control" rows="5" placeholder="Description -----"></textarea>
