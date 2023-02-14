@@ -40,11 +40,14 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
-        'api' => [
-            // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-            'throttle:api',
-            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        'PublicApiKey' => [
+            \App\Http\Middleware\PublicApiKey::class,
         ],
+
+        'ApiKeyPrivate' => [
+            \App\Http\Middleware\ApiKeyPrivate::class,
+        ],
+
         'cusTomAuth' =>[
             \App\Http\Middleware\CusTomAuth::class,
         ],

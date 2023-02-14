@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ApiKeyAdminController;
+use App\Http\Controllers\ApiKeyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
@@ -8,8 +10,8 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GoogleDriveController;
-use App\Http\Controllers\S3Controller;
 use App\Http\Controllers\FileUploadController;
+use App\Models\ApiKeyAdmin;
 
 //Main Page
 Route::get('/',[PagesController::class, 'index']);
@@ -22,10 +24,10 @@ Route::get('/registration', [AuthController::class, 'register']);
 Route::post('/postRegistration', [AuthController::class, 'postRegister']);
 Route::get('/logout', [AuthController::class, 'logOut']);
 
-Route::get('product',[
-    ProductController::class,
-    'index'
-]);
+//Route::get('product',[
+//    ProductController::class,
+//    'index'
+//]);
 
 Route::get('createProduct',[
     ProductController::class,
@@ -94,6 +96,23 @@ Route::get('/getFileUploadToDrive',[GoogleDriveController::class,'getFileUploadT
 
 //Cloud
 Route::get('/google/login',[GoogleDriveController::class,'googleLogin'])->name('google.login');
+
+Route::get('product',[
+    ProductController::class,
+    'index'
+]);
+
+Route::post('/createApiKey', [ApiKeyController::class, 'createApiKey']);
+
+Route::post('/createApiKeyAdmin', [ApiKeyAdminController::class, 'createApiKey']);
+
+Route::group(['middleware' =>['ApiKeyPrivate']], function () {
+    Route::get('/getApiKeyAdmin', [ApiKeyAdminController::class, 'index']);
+});
+
+Route::group(['middleware' =>['PublicApiKey']], function () {
+    Route::get('/getApiKey', [ApiKeyController::class, 'index']);
+});
 
 Route::get('/getFileUpload/{option}/{key}',[FileUploadController::class,'getFileUpload']);
 Route::get('/getAllFileUploadCloud/{option}',[FileUploadController::class,'getAllFileUploadCloud']);

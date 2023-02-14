@@ -9,6 +9,10 @@ use App\Models\FileCloud;
 
 class S3CloudService implements FileUploadInterface{
 
+    public function hasFile($key)
+    {
+        return Storage::disk('s3')->exists($key);
+    }
     public function getFile($key){
 //        $result = FileCloud::where('key',$key)->get();
 //        return response()->json($result);

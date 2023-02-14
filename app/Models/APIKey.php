@@ -5,15 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class FileCloud extends Model
+class APIKey extends Model
 {
     use HasFactory;
 
-    protected $table = 'fileClouds';
+    protected $table = 'apiKeys';
     protected $fillable = [
-        'key', 'url','size','type', 'last_sync_at'
-    ];
-    protected $dates = [
-        'last_sync_at',
+        'name', 'email','apikey'
     ];
 }

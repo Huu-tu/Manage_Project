@@ -7,6 +7,8 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as Middleware;
 class VerifyCsrfToken extends Middleware
 {
     protected $except = [
+        '/createApiKeyAdmin',
+        '/createApiKey',
         'fileDeleteCloud',
         '/fileDeleteCloud/google/555.jpg',
         '/fileDeleteCloud/dropbox/p_1675711048.jpg',

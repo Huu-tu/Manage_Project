@@ -16,6 +16,7 @@ class OrderController extends Controller
     public function index(){
         return $this->orderService->getAll();
     }
+    
     public function createOrder(){
         return view('order.createOrder');
     }

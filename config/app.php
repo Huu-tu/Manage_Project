@@ -101,7 +101,9 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
-    'api_key' => env('API_KEY'),
+    'api_key' => env('xxxx'),
+
+    'api_key_private' => env('API_KEY_PRIVATE'),
 
     /*
     |--------------------------------------------------------------------------
