@@ -13,6 +13,7 @@ class S3CloudService implements FileUploadInterface{
     {
         return Storage::disk('s3')->exists($key);
     }
+    
     public function getFile($key){
 //        $result = FileCloud::where('key',$key)->get();
 //        return response()->json($result);
